@@ -17,6 +17,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         dbname = os.environ["DB_NAME"]
         pwd = os.environ["PW"]
+        logging.info(dbname, pwd)
         conn = psycopg2.connect(
             "dbname='{}' user='HSadmin@hs-azure-sql-staff-app' host='hs-azure-sql-staff-app.postgres.database.azure.com' password='{}' port='5432'".format(
                 dbname, pwd
