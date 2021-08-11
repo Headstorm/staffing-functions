@@ -19,12 +19,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         id = req.route_params.get("id")
         # logging.info("id : {}".format(id))
-        dbname = os.environ["DB_NAME"]
-        pwd = os.environ["PW"]
+        con_string = os.environ["dbManagementConnectionString"]
         conn = psycopg2.connect(
-            "dbname='{}' user='HSadmin@hs-azure-sql-staff-app' host='hs-azure-sql-staff-app.postgres.database.azure.com' password='{}' port='5432'".format(
-                dbname, pwd
-            )
+            con_string
         )
         cur = conn.cursor()
         logging.info("DELETE Employee")

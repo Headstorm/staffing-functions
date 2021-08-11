@@ -17,12 +17,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     cur = None
     conn = None
     try:
-        dbname = os.environ["DB_NAME"]
-        pwd = os.environ["PW"]
+        con_string = os.environ["dbManagementConnectionString"]
         conn = psycopg2.connect(
-            "dbname='{}' user='HSadmin@hs-azure-sql-staff-app' host='hs-azure-sql-staff-app.postgres.database.azure.com' password='{}' port='5432'".format(
-                dbname, pwd
-            )
+            con_string
         )
         cur = conn.cursor()
         print("POST Employee")
