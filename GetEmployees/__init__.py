@@ -14,10 +14,10 @@ def get_ssl_cert():
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+    cur = None
     try:
         dbname = os.environ["DB_NAME"]
         pwd = os.environ["PW"]
-        logging.info(dbname, pwd)
         conn = psycopg2.connect(
             "dbname='{}' user='HSadmin@hs-azure-sql-staff-app' host='hs-azure-sql-staff-app.postgres.database.azure.com' password='{}' port='5432'".format(
                 dbname, pwd
@@ -31,13 +31,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cur.execute(sql_command)
         result = cur.fetchall()
         df = pd.DataFrame(result, columns=["id", "full_name", "email", "title", "is_active"])
-
-        cur.close()
-        conn.close()
-
         return func.HttpResponse(df.to_json(orient="records"), mimetype="application/json", status_code=200)
     except Exception as e:
-        cur.close()
-        conn.close()
+        if cur is not None:
+            cur.rollback()
         logging.warning(str(e))
-        return func.HttpResponse(json.dumps(e, default=str), status_code=500)
+        return func.HttpResponse(str(e), status_code=500)
+    finally:
+        if cur is not None:
+            cur.close()
+            conn.close()
