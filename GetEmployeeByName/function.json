@@ -9,7 +9,7 @@
       "methods": [
         "get"
       ],
-      "route": "employee/{id}"
+      "route": "employee/name/{name}"
     },
     {
       "type": "http",

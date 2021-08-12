@@ -32,8 +32,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         df = pd.DataFrame(result, columns=["id", "full_name", "email", "title", "is_active"])
         return func.HttpResponse(df.to_json(orient="records"), mimetype="application/json", status_code=200)
     except Exception as e:
-        if cur is not None:
-            cur.rollback()
         logging.warning(str(e))
         return func.HttpResponse(str(e), status_code=500)
     finally:

@@ -14,18 +14,21 @@ def get_ssl_cert():
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("GET Employee by Name")
     cur = None
     try:
+        name = req.route_params.get('name')
+        
         con_string = os.environ["dbManagementConnectionString"]
         conn = psycopg2.connect(
             con_string
         )
         cur = conn.cursor()
-        logging.info("GET Employees")
+        
+        name = '%' + name + '%'
+        sql_command = "SELECT * FROM employee WHERE full_name LIKE %s"
 
-        sql_command = "SELECT * FROM employee"
-
-        cur.execute(sql_command)
+        cur.execute(sql_command, (name, ))
         result = cur.fetchall()
         df = pd.DataFrame(result, columns=["id", "full_name", "email", "title", "is_active"])
         return func.HttpResponse(df.to_json(orient="records"), mimetype="application/json", status_code=200)
