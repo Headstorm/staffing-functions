@@ -78,7 +78,7 @@ This is the instructions on setting up the project locally.
    ```
 3. Install Python 3.8 [https://www.python.org/downloads/](https://www.python.org/downloads/)
 4. Open the cloned repo on VSCode
-5. Create local.settings.json at the project root directory
+5. Create ```local.settings.json``` at the project root directory
    ```json
    {
         "IsEncrypted": false,
@@ -86,7 +86,7 @@ This is the instructions on setting up the project locally.
             "AzureWebJobsStorage": "",
             "FUNCTIONS_WORKER_RUNTIME": "python",
             "AZURE_FUNCTION_PROXY_DISABLE_LOCAL_CALL": true,
-            "dbManagementConnectionString" : <connection string to postgresql from azure portal>
+            "dbManagementConnectionString" : <connection-string-to-postgresql-from-azure-portal>
         }
     }
    ```
